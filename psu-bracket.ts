@@ -17,7 +17,6 @@ type BracketParams = {
   bottomType: 'none' | 'solid' | 'lip';
   lipSize?: number; // Optional parameter for lip size
   color?: string;
-  holeOffset?: number;
 }
 
 // Function to create the bracket with given parameters
@@ -25,14 +24,7 @@ export function createBracket(params: BracketParams) {
   // Create the main bracket body
   const BRACKET_THICKNESS = params.bracketThickness;
   const HEIGHT_WITH_THICKNESS = params.height + BRACKET_THICKNESS;
-  const WIDTH_WITH_THICKNESS = params.width + BRACKET_THICKNESS * 2;
   const HOLE_DIAMETER = Math.min(params.holeDiameter, (params.earWidth / 2) - 1, (params.depth / 2) - 1);
-
-  const COMMAND_STRIP = {
-    LENGTH: 46,
-    WIDTH: 15.8,
-    THICKNESS: 1.6,
-  }
 
   const mainBody = Manifold.cube(
     [params.width + BRACKET_THICKNESS * 2,
@@ -119,10 +111,6 @@ export function createBracket(params: BracketParams) {
 
   // Create mounting ears
   const ear = Manifold.cube([params.earWidth, BRACKET_THICKNESS, params.depth]);
-
-
-  // Create the command strip cutout
-  const commandStripCutout = Manifold.cube([COMMAND_STRIP.WIDTH, COMMAND_STRIP.THICKNESS, COMMAND_STRIP.LENGTH]);
 
   const ribbingSpacing = calculateSpacing({
     availableWidth: params.depth,

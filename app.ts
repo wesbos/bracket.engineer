@@ -14,7 +14,6 @@ interface BracketParams {
   bottomType: 'none' | 'solid' | 'lip';
   lipSize?: number;
   color: string;
-  holeOffset?: number;
 }
 
 // Initialize the preview
