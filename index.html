@@ -194,17 +194,42 @@
           />
         </div>
 
+        <div class="control-group" id="lipSizeContainer" style="display: none;">
+          <label for="lipSize">Lip Size</label>
+          <input
+            type="range"
+            id="lipSize"
+            name="lipSize"
+            min="2"
+            max="20"
+            step="0.5"
+            value="4"
+          />
+          <input
+            type="number"
+            id="lipSizeValue"
+            class="value-display"
+            value="4"
+          />
+        </div>
+
         <div class="control-group collection">
           <div>
-            <input type="checkbox" id="hasBottom" name="hasBottom" />
-            <label for="hasBottom">Has Bottom</label>
+            <label for="bottomType">Bottom Type</label>
+            <select id="bottomType" name="bottomType">
+              <option value="none">None</option>
+              <option value="solid">Solid</option>
+              <option value="lip">Lip</option>
+            </select>
           </div>
           <div>
-            <label for="hasBottom">color</label>
+            <label for="color">Color</label>
             <input type="color" id="color" name="color" value="#44ff00" />
           </div>
           <button type="button" id="export-button">Export 3MF</button>
         </div>
+        
+
       </form>
     </div>
 
