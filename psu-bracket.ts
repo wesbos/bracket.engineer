@@ -14,7 +14,10 @@ type BracketParams = {
   bracketThickness: number;
   ribbingThickness: number;
   ribbingCount: number;
-  hasBottom: boolean;
+  bottomType: 'none' | 'solid' | 'lip';
+  lipSize?: number; // Optional parameter for lip size
+  color?: string;
+  holeOffset?: number;
 }
 
 // Function to create the bracket with given parameters
@@ -37,12 +40,86 @@ export function createBracket(params: BracketParams) {
     params.depth]
   );
 
-  const cutOut = Manifold.cube([params.width, params.height + BRACKET_THICKNESS, params.depth]).translate([0, BRACKET_THICKNESS, params.hasBottom ? -BRACKET_THICKNESS : 0]).translate([BRACKET_THICKNESS, 0, 0])
+  // Create the cutout based on bottom type
+  let cutOut;
+  
+  if (params.bottomType === 'none') {
+    // For none, cut out the entire inside, including the bottom
+    cutOut = Manifold.cube([params.width, params.height + BRACKET_THICKNESS, params.depth])
+      .translate([BRACKET_THICKNESS, BRACKET_THICKNESS, 0]);
+  } else if (params.bottomType === 'solid') {
+    // For solid, leave the bottom intact
+    cutOut = Manifold.cube([params.width, params.height + BRACKET_THICKNESS, params.depth - BRACKET_THICKNESS])
+      .translate([BRACKET_THICKNESS, BRACKET_THICKNESS, BRACKET_THICKNESS]);
+  } else { // bottomType === 'lip' or any other case
+    // For lip, we'll do a more complex set of operations:
+    // 1. First create the main cutout like for "none" - cutting everything out
+    cutOut = Manifold.cube([params.width, params.height + BRACKET_THICKNESS, params.depth])
+      .translate([BRACKET_THICKNESS, BRACKET_THICKNESS, 0]);
+  }
 
-  const shell = Manifold.difference(mainBody, cutOut);
+  // Create the basic shell by removing the cutout
+  let shell = Manifold.difference(mainBody, cutOut);
+
+  // Now add the lip if needed
+  if (params.bottomType === 'lip') {
+    // Get lip size parameter or use default
+    const lipSize = params.lipSize || 10;
+    
+    // Calculate the maximum possible lip size
+    // Allow covering almost the entire dimension (leave at least 2mm opening)
+    const minOpeningSize = 2; // minimum opening size in mm
+    const maxWidth = Math.max(params.width - minOpeningSize, 1);
+    const maxHeight = Math.max(params.height - minOpeningSize, 1);
+    
+    // Constrain the lip size to avoid exceeding bracket dimensions
+    const constrainedLipSize = Math.min(lipSize, maxWidth / 2, maxHeight / 2);
+    
+    // Create the U-shaped lip as three separate pieces
+    
+    // 1. Bottom lip (spans the entire width)
+    const bottomLip = Manifold.cube([
+      params.width,                // Full width of bracket
+      constrainedLipSize,          // Height is the lip size
+      BRACKET_THICKNESS            // Same thickness as bracket
+    ]).translate([
+      BRACKET_THICKNESS,           // Align with bracket wall
+      BRACKET_THICKNESS,           // Align with bracket floor
+      0                            // At the bottom
+    ]);
+    
+    // 2. Left side lip - extend to the full height from bottom lip to top of bracket
+    const leftLip = Manifold.cube([
+      constrainedLipSize,          // Width is the lip size
+      params.height - constrainedLipSize + BRACKET_THICKNESS,  // Full height from bottom lip to top edge (including top thickness)
+      BRACKET_THICKNESS            // Same thickness as bracket
+    ]).translate([
+      BRACKET_THICKNESS,           // Align with bracket wall
+      BRACKET_THICKNESS + constrainedLipSize, // Start above the bottom lip
+      0                            // At the bottom
+    ]);
+    
+    // 3. Right side lip - extend to the full height from bottom lip to top of bracket
+    const rightLip = Manifold.cube([
+      constrainedLipSize,          // Width is the lip size
+      params.height - constrainedLipSize + BRACKET_THICKNESS,  // Full height from bottom lip to top edge (including top thickness)
+      BRACKET_THICKNESS            // Same thickness as bracket
+    ]).translate([
+      BRACKET_THICKNESS + params.width - constrainedLipSize, // Align with right edge minus lip width
+      BRACKET_THICKNESS + constrainedLipSize, // Start above the bottom lip
+      0                            // At the bottom
+    ]);
+    
+    // Union the three lips together
+    const lipFrame = Manifold.union([bottomLip, leftLip, rightLip]);
+    
+    // Add the lip frame to the shell
+    shell = Manifold.union([shell, lipFrame]);
+  }
 
   // Create mounting ears
   const ear = Manifold.cube([params.earWidth, BRACKET_THICKNESS, params.depth]);
+
 
   // Create the command strip cutout
   const commandStripCutout = Manifold.cube([COMMAND_STRIP.WIDTH, COMMAND_STRIP.THICKNESS, COMMAND_STRIP.LENGTH]);
@@ -119,5 +196,7 @@ export const defaultParams: BracketParams = {
   bracketThickness: 1,
   ribbingThickness: 1,
   ribbingCount: 0,
-  hasBottom: false,
+  bottomType: 'none',
+  lipSize: 10, // Default lip size is 10mm
+  color: "#44ff00"
 };

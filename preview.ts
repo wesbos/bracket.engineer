@@ -8,8 +8,14 @@ interface BracketParams {
   depth: number;
   height: number;
   holeDiameter: number;
-  holeOffset: number;
   earWidth: number;
+  bracketThickness: number;
+  ribbingThickness: number;
+  ribbingCount: number;
+  bottomType: 'none' | 'solid' | 'lip';
+  lipSize?: number;
+  color?: string;
+  holeOffset?: number;
 }
 
 
@@ -105,7 +111,10 @@ export function setupPreview(canvas: HTMLCanvasElement, onParamsChange?: (params
       bracketMesh.geometry.dispose();
     }
 
-    material.color.set(params.color);
+    // Check if color is defined before setting it
+    if (params.color) {
+      material.color.set(params.color);
+    }
 
     // Create new bracket
     const bracket = createBracket(params);
