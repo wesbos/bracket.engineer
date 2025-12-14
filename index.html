@@ -47,6 +47,43 @@
         <canvas id="preview"></canvas>
       </div>
       <form class="controls" id="controls">
+        <fieldset class="plate-settings">
+          <legend>Build Plate</legend>
+          <div class="plate-inputs">
+            <div class="plate-input-group">
+              <input
+                type="number"
+                id="plateWidth"
+                name="plateWidth"
+                min="100"
+                max="500"
+                step="1"
+                value="256"
+              />
+              <span class="unit">mm</span>
+            </div>
+            <span class="plate-divider">×</span>
+            <div class="plate-input-group">
+              <input
+                type="number"
+                id="plateDepth"
+                name="plateDepth"
+                min="100"
+                max="500"
+                step="1"
+                value="256"
+              />
+              <span class="unit">mm</span>
+            </div>
+          </div>
+          <div class="plate-presets">
+            <button type="button" class="plate-preset-btn active" data-width="256" data-depth="256">Bambu X1C</button>
+            <button type="button" class="plate-preset-btn" data-width="180" data-depth="180">A1 Mini</button>
+            <button type="button" class="plate-preset-btn" data-width="250" data-depth="210">Prusa MK4</button>
+            <button type="button" class="plate-preset-btn" data-width="220" data-depth="220">Ender 3</button>
+            <button type="button" class="plate-preset-btn" data-width="350" data-depth="350">Voron 350</button>
+          </div>
+        </fieldset>
         <div class="control-group">
           <label for="width">Width</label>
           <input
@@ -54,16 +91,24 @@
             id="width"
             name="width"
             min="10"
-            max="200"
+            max="236"
             step="0.5"
-            value="86"
+            value="200"
           />
-          <input
-            type="number"
-            id="widthValue"
-            class="value-display"
-            value="57"
-          />
+          <div class="value-with-unit">
+            <input
+              type="number"
+              id="widthValue"
+              class="value-display"
+              value="200"
+            />
+            <span class="unit">mm</span>
+          </div>
+        </div>
+        <div class="control-group total-width-display">
+          <label>Total Width</label>
+          <span id="totalWidth">--</span>
+          <span class="plate-limit">/ <span id="plateLimitDisplay">256</span>mm plate</span>
         </div>
         <div class="control-group">
           <label for="height">Height</label>
@@ -76,12 +121,15 @@
             step="0.5"
             value="16"
           />
-          <input
-            type="number"
-            id="heightValue"
-            class="value-display"
-            value="15"
-          />
+          <div class="value-with-unit">
+            <input
+              type="number"
+              id="heightValue"
+              class="value-display"
+              value="15"
+            />
+            <span class="unit">mm</span>
+          </div>
         </div>
         <div class="control-group">
           <label for="depth">Depth</label>
@@ -94,12 +142,15 @@
             step="1"
             value="25"
           />
-          <input
-            type="number"
-            id="depthValue"
-            class="value-display"
-            value="33"
-          />
+          <div class="value-with-unit">
+            <input
+              type="number"
+              id="depthValue"
+              class="value-display"
+              value="33"
+            />
+            <span class="unit">mm</span>
+          </div>
         </div>
 
         <div class="control-group">
@@ -113,12 +164,15 @@
             step="0.5"
             value="3"
           />
-          <input
-            type="number"
-            id="bracketThicknessValue"
-            class="value-display"
-            value="3"
-          />
+          <div class="value-with-unit">
+            <input
+              type="number"
+              id="bracketThicknessValue"
+              class="value-display"
+              value="3"
+            />
+            <span class="unit">mm</span>
+          </div>
         </div>
         <div class="control-group">
           <label for="ribbingCount">Rib Count</label>
@@ -135,7 +189,7 @@
           <input
             type="number"
             id="ribbingCountValue"
-            class="value-display"
+            class="value-display no-unit"
             value="3"
           />
         </div>
@@ -150,12 +204,15 @@
             step="0.5"
             value="2"
           />
-          <input
-            type="number"
-            id="ribbingThicknessValue"
-            class="value-display"
-            value="2"
-          />
+          <div class="value-with-unit">
+            <input
+              type="number"
+              id="ribbingThicknessValue"
+              class="value-display"
+              value="2"
+            />
+            <span class="unit">mm</span>
+          </div>
         </div>
         <div class="control-group">
           <label for="holeDiameter">Hole Diameter</label>
@@ -168,12 +225,15 @@
             step="0.5"
             value="2"
           />
-          <input
-            type="number"
-            id="holeDiameterValue"
-            class="value-display"
-            value="4"
-          />
+          <div class="value-with-unit">
+            <input
+              type="number"
+              id="holeDiameterValue"
+              class="value-display"
+              value="4"
+            />
+            <span class="unit">mm</span>
+          </div>
         </div>
         <div class="control-group">
           <label for="holeCount">Hole Count</label>
@@ -189,7 +249,7 @@
           <input
             type="number"
             id="holeCountValue"
-            class="value-display"
+            class="value-display no-unit"
             value="1"
           />
         </div>
@@ -200,16 +260,19 @@
             id="earWidth"
             name="earWidth"
             min="5"
-            max="30"
+            max="40"
             step="1"
-            value="15"
+            value="10"
           />
-          <input
-            type="number"
-            id="earWidthValue"
-            class="value-display"
-            value="15"
-          />
+          <div class="value-with-unit">
+            <input
+              type="number"
+              id="earWidthValue"
+              class="value-display"
+              value="10"
+            />
+            <span class="unit">mm</span>
+          </div>
         </div>
 
         <div class="control-group collection">

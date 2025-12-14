@@ -219,3 +219,145 @@ button {
   text-transform: uppercase;
   color: black;
 }
+
+/* Total width display */
+.total-width-display {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.total-width-display label {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.total-width-display #totalWidth {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color);
+  transition: color 0.2s;
+}
+
+.total-width-display #totalWidth.over-limit {
+  color: #ff4444;
+}
+
+.total-width-display .plate-limit {
+  font-size: 14px;
+  opacity: 0.5;
+}
+
+/* Value with unit styling */
+.value-with-unit {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.value-with-unit .value-display {
+  width: 50px;
+}
+
+.unit {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: lowercase;
+  font-weight: 400;
+}
+
+.value-display.no-unit {
+  width: 60px;
+}
+
+/* Build Plate Settings */
+.plate-settings {
+  grid-column: 1 / -1;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.plate-settings legend {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 0 8px;
+}
+
+.plate-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.plate-input-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  padding: 4px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.plate-input-group input {
+  width: 60px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-family: inherit;
+  font-size: 16px;
+  text-align: center;
+}
+
+.plate-input-group input:focus {
+  outline: none;
+}
+
+.plate-input-group .unit {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.plate-divider {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.plate-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.plate-preset-btn {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 5px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  text-transform: none;
+}
+
+.plate-preset-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.plate-preset-btn.active {
+  background: var(--color);
+  border-color: var(--color);
+  color: #000;
+  font-weight: 500;
+}

@@ -170,15 +170,15 @@ function calculateSpacing({
 }
 
 export const defaultParams: BracketParams = {
-  width: 35.5,
-  depth: 16,
-  height: 15,
+  width: 200,
+  depth: 25,
+  height: 16,
   holeDiameter: 2,
   earWidth: 10,
-  bracketThickness: 1,
-  ribbingThickness: 1,
-  ribbingCount: 0,
+  bracketThickness: 3,
+  ribbingThickness: 2,
+  ribbingCount: 3,
   hasBottom: false,
-  holeCount: 2,
+  holeCount: 1,
   keyHole: false,
 };
